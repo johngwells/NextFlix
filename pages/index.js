@@ -3,9 +3,21 @@ import styles from '../styles/Home.module.css';
 
 import Banner from '../components/banner/banner';
 import NavBar from '../components/nav/navbar';
-import Card from '../components/card/card';
+import SectionCards from '../components/card/section-cards';
 
 export default function Home() {
+  const videos = [
+    {
+      imgUrl: '/static/movie-clip.jpeg'
+    },
+    {
+      imgUrl: '/static/movie-clip.jpeg'
+    },
+    {
+      imgUrl: '/static/movie-clip.jpeg'
+    }
+  ];
+
   return (
     <div className={styles.container}>
       <Head>
@@ -21,10 +33,14 @@ export default function Home() {
           subTitle='Mordor'
           imgUrl='/static/Lordoftherings.jpeg'
         />
-        <Card imgUrl='/static/Lordoftherings.jpeg' size='large' />
-        <Card imgUrl='/static/Lordoftherings.jpeg' size='medium' />
-        <Card imgUrl='/static/Lordoftherings.jpeg' size='small' />
-        <Card />
+
+        <div className={styles.sectionWrapper}>
+          <SectionCards title='Disney' videos={videos} size='large' />
+        </div>
+
+        <div className={styles.sectionWrapper}>
+          <SectionCards title='Classics' videos={videos} size='medium' />
+        </div>
       </main>
     </div>
   );
