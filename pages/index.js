@@ -1,24 +1,31 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import Head from 'next/head';
+import styles from '../styles/Home.module.css';
 
-import Banner from '../components/banner/banner'
-import NavBar from '../components/nav/navbar'
+import Banner from '../components/banner/banner';
+import NavBar from '../components/nav/navbar';
+import Card from '../components/card/card';
 
 export default function Home() {
   return (
     <div className={styles.container}>
       <Head>
         <title>NextFlix App</title>
-        <meta name="description" content="NextJS Netflix app" />
-        <link rel="icon" href="/favicon.ico" />
+        <meta name='description' content='NextJS Netflix app' />
+        <link rel='icon' href='/favicon.ico' />
       </Head>
 
       <main className={styles.main}>
         <NavBar username='johnny@google.com' />
-        <Banner title='Lord of the Rings' subTitle='Mordor' imgUrl='/static/Lordoftherings.jpeg' />
-        {/* <Card /> */}
+        <Banner
+          title='Lord of the Rings'
+          subTitle='Mordor'
+          imgUrl='/static/Lordoftherings.jpeg'
+        />
+        <Card imgUrl='/static/Lordoftherings.jpeg' size='large' />
+        <Card imgUrl='/static/Lordoftherings.jpeg' size='medium' />
+        <Card imgUrl='/static/Lordoftherings.jpeg' size='small' />
+        <Card />
       </main>
-
     </div>
-  )
+  );
 }
