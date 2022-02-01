@@ -19,6 +19,7 @@ export async function getServerSideProps() {
 
 export default function Home({ disneyVideos, animeVideos, popularVideos }) {
   console.log({ magic })
+
   return (
     <div className={styles.container}>
       <Head>

@@ -5,6 +5,7 @@ import Head from 'next/head';
 import { magic } from '../lib/magic-client';
 
 import styles from '../styles/Login.module.css';
+import Loading from '../components/loading/loading';
 
 const Login = () => {
   const router = useRouter();
