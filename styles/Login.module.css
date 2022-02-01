@@ -7,7 +7,7 @@
   background-color: var(--black);
 
   background-image: linear-gradient(rgb(0 0 0 / 60%), rgb(0 0 0 / 60%)),
-    url(/static/signin-bg.jpg);
+    url(/static/netflix-bg.jpg);
 }
 
 .header {
@@ -86,7 +86,6 @@
   color: var(--black30);
 
   width: 100%;
-  padding-bottom: 1rem /* 16px */;
 
   height: 3rem /* 48px */;
   min-width: 240px;
