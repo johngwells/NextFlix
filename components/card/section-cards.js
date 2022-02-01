@@ -9,7 +9,7 @@ const SectionCards = props => {
       <h2 className={styles.title}>{title}</h2>
       <div className={styles.cardWrapper}>
       {videos.map((video, idx) => (
-        <Card id={idx} imgUrl={video.imgUrl} size={size} />
+        <Card key={idx} id={idx} imgUrl={video.imgUrl} size={size} />
       ))}
       </div>
     </section>

@@ -5,15 +5,19 @@ import Banner from '../components/banner/banner';
 import NavBar from '../components/nav/navbar';
 import SectionCards from '../components/card/section-cards';
 
-import { getVideos } from '../lib/videos';
+import { getPopularVideos, getPopularVides, getVideos } from '../lib/videos';
 
 export async function getServerSideProps() {
-  const videos = getVideos();
+  const disneyVideos = await getVideos('disney trailer');
+  const animeVideos = await getVideos('anime trailer');
 
-  return { props: { videos } };
+  // popular
+  const popularVideos = await getPopularVideos();
+
+  return { props: { disneyVideos, animeVideos, popularVideos } };
 }
 
-export default function Home({ videos }) {
+export default function Home({ disneyVideos, animeVideos, popularVideos }) {
   return (
     <div className={styles.container}>
       <Head>
@@ -31,11 +35,15 @@ export default function Home({ videos }) {
         />
 
         <div className={styles.sectionWrapper}>
-          <SectionCards title='Disney' videos={videos} size='large' />
+          <SectionCards title='Disney' videos={disneyVideos} size='large' />
         </div>
 
         <div className={styles.sectionWrapper}>
-          <SectionCards title='Classics' videos={videos} size='medium' />
+          <SectionCards title='Anime' videos={animeVideos} size='medium' />
+        </div>
+
+        <div className={styles.sectionWrapper}>
+          <SectionCards title='Popular' videos={popularVideos} size='small' />
         </div>
       </main>
     </div>
