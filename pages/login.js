@@ -20,15 +20,15 @@ const Login = () => {
   useEffect(() => {
     const handleComplete = () => {
       setIsLoading(false);
-    }
+    };
     router.events.on('routeChangeComplete', handleComplete);
     router.events.on('routeChangeError', handleComplete);
 
     return () => {
-      router.events.off('routeChangeComplete', handleComplete)
+      router.events.off('routeChangeComplete', handleComplete);
       router.events.off('routeChangeError', handleComplete);
-    }
-  }, [router])
+    };
+  }, [router]);
 
   const handleOnChangeEmail = e => {
     setUserMsg('');
@@ -40,7 +40,6 @@ const Login = () => {
     e.preventDefault();
     if (email) {
       if (email === 'johnwells.developer@gmail.com') {
-        // log in a user by their email
         try {
           setIsLoading(true);
           const didToken = await magic.auth.loginWithMagicLink({ email });
@@ -50,16 +49,10 @@ const Login = () => {
             router.push('/');
           }
         } catch (err) {
-          // Handle errors if required!
           console.error('Something went wrong logging in', err);
           setIsLoading(false);
         }
-
-        // route to dashboard
-        // router.push('/');
-        // setUserMsg('verified! routing to dashboard...')
       } else {
-        // show error
         setUserMsg("You don't have login access");
         setIsLoading(false);
       }
