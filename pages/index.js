@@ -5,19 +5,15 @@ import Banner from '../components/banner/banner';
 import NavBar from '../components/nav/navbar';
 import SectionCards from '../components/card/section-cards';
 
-export default function Home() {
-  const videos = [
-    {
-      imgUrl: '/static/movie-clip.jpeg'
-    },
-    {
-      imgUrl: '/static/movie-clip.jpeg'
-    },
-    {
-      imgUrl: '/static/movie-clip.jpeg'
-    }
-  ];
+import { getVideos } from '../lib/videos';
 
+export async function getServerSideProps() {
+  const videos = getVideos();
+
+  return { props: { videos } };
+}
+
+export default function Home({ videos }) {
   return (
     <div className={styles.container}>
       <Head>
