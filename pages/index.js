@@ -5,19 +5,20 @@ import Banner from '../components/banner/banner';
 import NavBar from '../components/nav/navbar';
 import SectionCards from '../components/card/section-cards';
 
-import { getPopularVideos, getPopularVides, getVideos } from '../lib/videos';
+import { getPopularVideos, getVideos } from '../lib/videos';
+import { magic } from '../lib/magic-client';
 
 export async function getServerSideProps() {
   const disneyVideos = await getVideos('disney trailer');
   const animeVideos = await getVideos('anime trailer');
 
-  // popular
   const popularVideos = await getPopularVideos();
 
   return { props: { disneyVideos, animeVideos, popularVideos } };
 }
 
 export default function Home({ disneyVideos, animeVideos, popularVideos }) {
+  console.log({ magic })
   return (
     <div className={styles.container}>
       <Head>
