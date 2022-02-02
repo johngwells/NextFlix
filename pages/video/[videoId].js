@@ -4,19 +4,14 @@ import styles from '../../styles/Video.module.css';
 
 import cls from 'classnames';
 import { getYoutubeVideoById } from '../../lib/videos';
+import NavBar from '../../components/nav/navbar';
 
 Modal.setAppElement('#__next');
 
-export async function getStaticProps() {
-  // const video = {
-  //   title: 'Apex',
-  //   publishTime: '2022-01-01',
-  //   description: 'this is the description',
-  //   channelId: 'Apex gaming',
-  //   viewCount: 10000
-  // };
-
-  const videoId = 'eeZ1Ufdra0E';
+export async function getStaticProps(context) {
+  // lord of the rings: T9o-bx1KMpQ
+  const videoId = context.params.videoId;
+  console.log({ context })
 
   const video = await getYoutubeVideoById(videoId);
 
@@ -45,15 +40,15 @@ const Video = ({ video }) => {
 
   const {
     title,
-    publishTime,
+    publishedAt,
     description,
-    channelId,
-    statistics
+    channelTitle,
+    statistics: { viewCount } = { viewCount: 0}
   } = video;
 
   return (
     <div className={styles.container}>
-      {/* Video page {router.query.videoId} */}
+      <NavBar />
       <Modal
         isOpen={true}
         contentLabel='Watch the video'
@@ -69,24 +64,24 @@ const Video = ({ video }) => {
           width='100%'
           height='390'
           src={`http://www.youtube.com/embed/${router.query.videoId}?autoplay=1&enablejsapi=1&origin=http://example.com&controls=0&rel=0`}
-          frameborder='0'
+          frameBorder='0'
         ></iframe>
 
         <div className={styles.modalBody}>
           <div className={styles.modalBodyContent}>
             <div className={styles.col1}>
-              <p className={styles.publishTime}>{publishTime}</p>
+              <p className={styles.publishTime}>{publishedAt}</p>
               <p className={styles.title}>{title}</p>
               <p className={styles.description}>{description}</p>
             </div>
             <div className={styles.col2}>
               <p className={cls(styles.subText, styles.subTextWrapper)}>
                 <span className={styles.textColor}>Cast: </span>
-                <span className={styles.channelTitle}>{channelId}</span>
+                <span className={styles.channelTitle}>{channelTitle}</span>
               </p>
               <p className={cls(styles.subText, styles.subTextWrapper)}>
                 <span className={styles.textColor}>View Count: </span>
-                <span className={styles.channelTitle}>{0}</span>
+                <span className={styles.channelTitle}>{viewCount}</span>
               </p>
             </div>
           </div>

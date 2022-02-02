@@ -11,7 +11,6 @@ import { magic } from '../lib/magic-client';
 export async function getServerSideProps() {
   const disneyVideos = await getVideos('disney trailer');
   const animeVideos = await getVideos('anime trailer');
-
   const popularVideos = await getPopularVideos();
 
   return { props: { disneyVideos, animeVideos, popularVideos } };
@@ -31,7 +30,7 @@ export default function Home({ disneyVideos, animeVideos, popularVideos }) {
       <main className={styles.main}>
         <NavBar username='johnny@google.com' />
         <Banner
-          videoId='OtVABKfc_AE'
+          videoId='T9o-bx1KMpQ'
           title='Lord of the Rings'
           subTitle='Mordor'
           imgUrl='/static/Lordoftherings.jpeg'
