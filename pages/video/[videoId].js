@@ -3,21 +3,53 @@ import Modal from 'react-modal';
 import styles from '../../styles/Video.module.css';
 
 import cls from 'classnames';
+import { getYoutubeVideoById } from '../../lib/videos';
 
 Modal.setAppElement('#__next');
 
-const Video = () => {
+export async function getStaticProps() {
+  // const video = {
+  //   title: 'Apex',
+  //   publishTime: '2022-01-01',
+  //   description: 'this is the description',
+  //   channelId: 'Apex gaming',
+  //   viewCount: 10000
+  // };
+
+  const videoId = 'eeZ1Ufdra0E';
+
+  const video = await getYoutubeVideoById(videoId);
+
+  return {
+    props: {
+      video: video.length > 0 ? video[0] : {}
+    },
+    revalidate: 10
+  };
+}
+
+export async function getStaticPaths() {
+  const listOfVideos = ['eeZ1Ufdra0E', 'Me50VkUdP2I', 'vevYlHV9raY'];
+
+  const paths = listOfVideos.map(videoId => ({
+    params: {
+      videoId
+    }
+  }));
+
+  return { paths, fallback: 'blocking' };
+}
+
+const Video = ({ video }) => {
   const router = useRouter();
 
-  const video = {
-    title: 'Apex',
-    publishTime: '2022-01-01',
-    description: 'this is the description',
-    channelId: 'Apex gaming',
-    viewCount: 10000
-  };
-
-  const { title, publishTime, description, channelId, viewCount } = video;
+  const {
+    title,
+    publishTime,
+    description,
+    channelId,
+    statistics
+  } = video;
 
   return (
     <div className={styles.container}>
@@ -54,7 +86,7 @@ const Video = () => {
               </p>
               <p className={cls(styles.subText, styles.subTextWrapper)}>
                 <span className={styles.textColor}>View Count: </span>
-                <span className={styles.channelTitle}>{viewCount}</span>
+                <span className={styles.channelTitle}>{0}</span>
               </p>
             </div>
           </div>
