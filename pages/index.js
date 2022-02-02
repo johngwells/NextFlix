@@ -31,6 +31,7 @@ export default function Home({ disneyVideos, animeVideos, popularVideos }) {
       <main className={styles.main}>
         <NavBar username='johnny@google.com' />
         <Banner
+          videoId='OtVABKfc_AE'
           title='Lord of the Rings'
           subTitle='Mordor'
           imgUrl='/static/Lordoftherings.jpeg'

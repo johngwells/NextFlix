@@ -55,7 +55,6 @@ const Login = () => {
         }
       } else {
         setUserMsg("You don't have login access");
-        setIsLoading(false);
       }
     } else {
       setUserMsg('Enter a valid email address');
