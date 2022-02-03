@@ -8,11 +8,13 @@ import SectionCards from '../components/card/section-cards';
 import { getPopularVideos, getVideos } from '../lib/videos';
 import { magic } from '../lib/magic-client';
 
+import { startFetchMyQuery } from '../db/hasura';
+
 export async function getServerSideProps() {
   const disneyVideos = await getVideos('disney trailer');
   const animeVideos = await getVideos('anime trailer');
   const popularVideos = await getPopularVideos();
-
+  
   return { props: { disneyVideos, animeVideos, popularVideos } };
 }
 
