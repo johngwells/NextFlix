@@ -9,16 +9,19 @@ import { magic } from '../../lib/magic-client';
 const NavBar = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [username, setUsername] = useState('');
+  const [didToken, setDidToken] = useState('');
 
   const router = useRouter();
 
   useEffect(async () => {
     try {
-      const { email } = await magic.user.getMetadata();
-      const didToken = magic.user.getIdToken();
+      const { email, issuer } = await magic.user.getMetadata();
+      const didToken = await magic.user.getIdToken();
       console.log({ didToken })
+
       if (email) {
         setUsername(email);
+        setDidToken(didToken)
       }
     } catch (err) {
       console.error('Something retrieving email', err);
@@ -42,6 +45,7 @@ const NavBar = () => {
 
   const handleLogout = async e => {
     e.preventDefault();
+    
     try {
       await magic.user.logout();
       router.push('/login');
