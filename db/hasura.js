@@ -85,7 +85,7 @@ export async function findVideoIdByUser(userId, videoId, token) {
     token
   );
 
-  return response?.data?.stats?.length > 0;
+  return response?.data?.stats;
 }
 
 // if user does not exist, create.
