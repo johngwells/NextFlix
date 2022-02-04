@@ -1,3 +1,29 @@
+export async function findVideoIdByUser(userId, videoId, token) {
+  const operationsDoc = `
+  query findVideoIdByUserId($userId: String!, $videoId: String!) {
+    stats(where: {userId: {_eq: $userId}, videoId: {_eq: $videoId}}) {
+      id
+      favorited
+      userId
+      videoId
+      watched
+    }
+  }
+`;
+
+  const response = await fetchGraphQL(
+    operationsDoc,
+    'findVideoIdByUserId',
+    {
+      videoId,
+      userId
+    },
+    token
+  );
+
+  return response;
+}
+
 // if user does not exist, create.
 export async function createNewUser(token, metadata) {
   const operationsDoc = `
@@ -23,7 +49,7 @@ export async function createNewUser(token, metadata) {
     },
     token
   );
-  console.log({ response });
+
   return response;
 }
 
@@ -37,7 +63,7 @@ export async function isNewUser(token, issuer) {
         issuer
       }
     }
-` ;
+`;
 
   const response = await fetchGraphQL(
     operationsDoc,
@@ -47,16 +73,11 @@ export async function isNewUser(token, issuer) {
     },
     token
   );
-  console.log({ response, issuer });
+
   return response?.data?.users?.length === 0;
 }
 
-async function fetchGraphQL(
-  operationsDoc,
-  operationName,
-  variables,
-  token
-) {
+async function fetchGraphQL(operationsDoc, operationName, variables, token) {
   const result = await fetch(process.env.NEXT_PUBLIC_HASURA_DB, {
     method: 'POST',
     headers: {
@@ -69,8 +90,6 @@ async function fetchGraphQL(
       operationName: operationName
     })
   });
-
-  console.log(result);
 
   return await result.json();
 }
