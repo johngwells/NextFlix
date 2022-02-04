@@ -1,3 +1,49 @@
+export async function insertStats() {
+  const operationsDoc = `
+    mutation insertStats($favorited: Int!, userId: String!, $watched: Boolean!, $videoId: String!) {
+      insert_stats_one(object: {favorited: $favorited, userId: $userId, watched: $watched, videoId: $videoId}) {
+        favorited
+        id
+        userId
+      }
+    }
+  `;
+}
+
+export async function updateStats(token, { favorited, userId, watched, videoId }) {
+  const operationsDoc = `
+    mutation updateStats($watched: Boolean!, $userId: String!, $videoId: String!, $favorited: Int!) {
+      update_stats(
+        _set: {watched: $watched, favorited: $favorited},
+        where: { 
+          userId: {_eq: $userId}, 
+          videoId: {_eq: $videoId} 
+        }) {
+        returning {
+          favorited
+          userId
+          watched
+          videoId
+        }
+      }
+    }
+  `;
+
+  const response = await fetchGraphQL(
+    operationsDoc,
+    'updateStats',
+    {
+      favorited,
+      userId,
+      watched,
+      videoId
+    },
+    token
+  );
+
+  return response;
+}
+
 export async function findVideoIdByUser(userId, videoId, token) {
   const operationsDoc = `
   query findVideoIdByUserId($userId: String!, $videoId: String!) {
@@ -21,7 +67,7 @@ export async function findVideoIdByUser(userId, videoId, token) {
     token
   );
 
-  return response;
+  return response?.data?.stats?.length > 0;
 }
 
 // if user does not exist, create.
