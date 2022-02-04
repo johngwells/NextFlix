@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import styles from '../../styles/Video.module.css';
 
@@ -53,8 +53,26 @@ const Video = ({ video }) => {
     statistics: { viewCount } = { viewCount: 0 }
   } = video;
 
-  const submitFavorited = async (favorited) => {
-    const response = await fetch('/api/stats', {
+  // [empty] sets only once on componentDidMount
+  useEffect(async () => {
+    const response = await fetch(`/api/stats?videoId=${videoId}`, {
+      method: 'GET'
+    });
+    const data = await response.json();
+
+    console.log({ data })
+    if (data.length > 0) {
+      const favorited = data[0].favorited;
+      if (favorited === 1) {
+        setLike(true);
+      } else if (favorited === 0) {
+        setDislike(true);
+      }
+    }
+  }, []);
+
+  const submitFavorited = async favorited => {
+    return await fetch('/api/stats', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -64,8 +82,7 @@ const Video = ({ video }) => {
         favorited
       })
     });
-    return response;
-  }
+  };
 
   const handleToggleLike = async () => {
     console.log('like');
@@ -74,17 +91,15 @@ const Video = ({ video }) => {
     setDislike(like);
 
     const response = await submitFavorited(val ? 1 : 0);
-    console.log('data', await response.json());
   };
 
   const handleToggleDislike = async () => {
     console.log('dislike');
-    const val = !dislike
+    const val = !dislike;
     setDislike(!dislike);
     setLike(dislike);
 
     const response = await submitFavorited(val ? 0 : 1);
-    console.log('data', await response.json());
   };
 
   return (

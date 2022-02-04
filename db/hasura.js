@@ -157,3 +157,27 @@ async function fetchGraphQL(operationsDoc, operationName, variables, token) {
 
   return await result.json();
 }
+
+export async function getWatchedVideos(userId, token) {
+  const operationsDoc = `
+    query getWatchedVideos($userId: String!) {
+    stats(where: {
+      watched: {_eq: true}, 
+      userId: {_eq: $userId},
+    }) {
+      videoId
+      userId
+    }
+  }
+  `;
+  const response = await fetchGraphQL(
+    operationsDoc,
+    'getWatchedVideos',
+    {
+      userId
+    },
+    token
+  );
+  console.log({ response })
+  return response;
+}

@@ -8,7 +8,10 @@ export default async function stats(req, res) {
     if (!token) {
       res.status(403).send({ msg: 'error' });
     } else {
-      const { videoId } = req.body;
+      // when using a 'get' request in [videoId].js useEffect it doesn't allow
+      // on mount to receive req.body. so inputParams is used to use req.query
+      const inputParams = req.method === 'POST' ? req.body : req.query
+      const { videoId } = inputParams;
       if (videoId) {
         const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
         const userId = decodedToken.issuer;
@@ -40,7 +43,7 @@ export default async function stats(req, res) {
         // Get Request - find video if exist
         } else {
           if (statsExist) {
-            res.send({ findVideo });
+            res.send(findVideo);
           } else {
             res.status(404);
             res.send({ user: null, msg: 'Video not found' });
