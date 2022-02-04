@@ -1,16 +1,34 @@
-export async function insertStats() {
+export async function insertStats(
+  token,
+  { favorited, userId, watched, videoId }
+) {
   const operationsDoc = `
-    mutation insertStats($favorited: Int!, userId: String!, $watched: Boolean!, $videoId: String!) {
+    mutation insertStats($favorited: Int!, $userId: String!, $watched: Boolean!, $videoId: String!) {
       insert_stats_one(object: {favorited: $favorited, userId: $userId, watched: $watched, videoId: $videoId}) {
         favorited
-        id
         userId
       }
     }
   `;
+  const response = await fetchGraphQL(
+    operationsDoc,
+    'insertStats',
+    {
+      favorited,
+      userId,
+      watched,
+      videoId
+    },
+    token
+  );
+
+  return response;
 }
 
-export async function updateStats(token, { favorited, userId, watched, videoId }) {
+export async function updateStats(
+  token,
+  { favorited, userId, watched, videoId }
+) {
   const operationsDoc = `
     mutation updateStats($watched: Boolean!, $userId: String!, $videoId: String!, $favorited: Int!) {
       update_stats(
