@@ -43,6 +43,7 @@ const Video = ({ video }) => {
   const [like, setLike] = useState(false);
   const [dislike, setDislike] = useState(false);
   const router = useRouter();
+  const videoId = router.query.videoId;
 
   const {
     title,
@@ -52,17 +53,39 @@ const Video = ({ video }) => {
     statistics: { viewCount } = { viewCount: 0 }
   } = video;
 
-  const handleToggleLike = () => {
-    console.log('like')
-    setLike(!like)
-    setDislike(like)
+  const submitFavorited = async (favorited) => {
+    const response = await fetch('/api/stats', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        videoId,
+        favorited
+      })
+    });
+    return response;
   }
 
-  const handleToggleDislike = () => {
-    console.log('dislike')
+  const handleToggleLike = async () => {
+    console.log('like');
+    const val = !like;
+    setLike(val);
+    setDislike(like);
+
+    const response = await submitFavorited(val ? 1 : 0);
+    console.log('data', await response.json());
+  };
+
+  const handleToggleDislike = async () => {
+    console.log('dislike');
+    const val = !dislike
     setDislike(!dislike);
-    setLike(dislike)
-  }
+    setLike(dislike);
+
+    const response = await submitFavorited(val ? 0 : 1);
+    console.log('data', await response.json());
+  };
 
   return (
     <div className={styles.container}>
@@ -81,7 +104,7 @@ const Video = ({ video }) => {
           type='text/html'
           width='100%'
           height='390'
-          src={`http://www.youtube.com/embed/${router.query.videoId}?autoplay=1&enablejsapi=1&origin=http://example.com&controls=0&rel=0`}
+          src={`http://www.youtube.com/embed/${videoId}?autoplay=1&enablejsapi=1&origin=http://example.com&controls=0&rel=0`}
           frameBorder='0'
         ></iframe>
 
@@ -95,7 +118,7 @@ const Video = ({ video }) => {
           </div>
           <button onClick={handleToggleDislike}>
             <div className={styles.btnWrapper}>
-              <Dislike selected={dislike}/>
+              <Dislike selected={dislike} />
             </div>
           </button>
         </div>
