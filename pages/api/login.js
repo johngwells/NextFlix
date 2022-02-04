@@ -34,11 +34,10 @@ export default async function login(req, res) {
       // check if user exists
       const isNewUserQuery = await isNewUser(token, metadata.issuer);
 
-      if (isNewUserQuery && await createNewUser(token, metadata)) {
+      isNewUserQuery && (await createNewUser(token, metadata)) 
         // set cookie
         setTokenCookie(token, res);
-        res.send({ done: true, msg: 'is a new user' });
-      }
+        res.send({ done: true });
     } catch (err) {
       console.error('Something went wrong loggin in', err);
       res.status(500).send({ done: false });
