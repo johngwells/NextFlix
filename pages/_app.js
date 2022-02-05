@@ -9,15 +9,6 @@ function MyApp({ Component, pageProps }) {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  useEffect(async () => {
-    // const isLoggedIn = await magic.user.isLoggedIn();
-    // if (isLoggedIn) {
-    //   router.push('/');
-    // } else {
-    //   router.push('/login');
-    // }
-  }, []);
-
   // stop flickering when switching routes
   useEffect(() => {
     const handleComplete = () => {
