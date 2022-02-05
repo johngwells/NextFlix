@@ -13,9 +13,7 @@ import Dislike from '../../components/icons/dislike-icon';
 Modal.setAppElement('#__next');
 
 export async function getStaticProps(context) {
-  // lord of the rings: T9o-bx1KMpQ
   const videoId = context.params.videoId;
-  console.log({ context });
 
   const video = await getYoutubeVideoById(videoId);
 
@@ -60,7 +58,6 @@ const Video = ({ video }) => {
     });
     const data = await response.json();
 
-    console.log({ data })
     if (data.length > 0) {
       const favorited = data[0].favorited;
       if (favorited === 1) {

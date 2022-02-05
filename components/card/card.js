@@ -16,7 +16,7 @@ const Card = ({ imgUrl = '/static/movie-clip.jpeg', size = 'medium', id }) => {
   };
 
   const handleError = () => {
-    console.log('error');
+    console.log('Error, Image not found. Using default image');
     setImgSrc('/static/movie-clip.jpeg');
   };
 
