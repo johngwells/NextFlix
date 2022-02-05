@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
+import Link from 'next/link';
 
 import { magic } from '../lib/magic-client';
 
@@ -60,7 +61,7 @@ const Login = () => {
             router.push('/');
           } else {
             setIsLoading(false);
-            setUserMsg('Something went wrong logging in')
+            setUserMsg('Something went wrong logging in');
           }
         }
       } catch (err) {
@@ -79,9 +80,11 @@ const Login = () => {
       </Head>
       <header className={styles.header}>
         <div className={styles.headerWrapper}>
-          <a className={styles.logoLink} href='/'>
-            <div className={styles.logoWrapper}>NEXTFLIX</div>
-          </a>
+          <Link href='/'>
+            <a className={styles.logoLink}>
+              <div className={styles.logoWrapper}>NEXTFLIX</div>
+            </a>
+          </Link>
         </div>
       </header>
 

@@ -52,21 +52,24 @@ const Video = ({ video }) => {
   } = video;
 
   // [empty] sets only once on componentDidMount
-  useEffect(async () => {
-    const response = await fetch(`/api/stats?videoId=${videoId}`, {
-      method: 'GET'
-    });
-    const data = await response.json();
-
-    if (data.length > 0) {
-      const favorited = data[0].favorited;
-      if (favorited === 1) {
-        setLike(true);
-      } else if (favorited === 0) {
-        setDislike(true);
+  useEffect(() => {
+    async function fetchData() {
+      const response = await fetch(`/api/stats?videoId=${videoId}`, {
+        method: 'GET'
+      });
+      const data = await response.json();
+    
+      if (data.length > 0) {
+        const favorited = data[0].favorited;
+        if (favorited === 1) {
+          setLike(true);
+        } else if (favorited === 0) {
+          setDislike(true);
+        }
       }
     }
-  }, []);
+    fetchData();
+  }, [videoId]);
 
   const submitFavorited = async favorited => {
     return await fetch('/api/stats', {

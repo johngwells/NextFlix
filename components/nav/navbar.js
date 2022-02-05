@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+import Link from 'next/link';
 
 import styles from './navbar.module.css';
 import { magic } from '../../lib/magic-client';
@@ -12,18 +13,21 @@ const NavBar = () => {
 
   const router = useRouter();
 
-  useEffect(async () => {
-    try {
-      const { email, issuer } = await magic.user.getMetadata();
-      const didToken = await magic.user.getIdToken();
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const { email, issuer } = await magic.user.getMetadata();
+        const didToken = await magic.user.getIdToken();
 
-      if (email) {
-        setUsername(email);
-        setDidToken(didToken);
+        if (email) {
+          setUsername(email);
+          setDidToken(didToken);
+        }
+      } catch (err) {
+        console.error('Something retrieving email', err);
       }
-    } catch (err) {
-      console.error('Something retrieving email', err);
     }
+    fetchData();
   }, []);
 
   const handleLinkHome = e => {
@@ -63,10 +67,11 @@ const NavBar = () => {
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
-        <a className={styles.logoLink} href='/'>
-          <div className={styles.logoWrapper}>NEXTFLIX</div>
-        </a>
-
+        <Link href='/'>
+          <a className={styles.logoLink}>
+            <div className={styles.logoWrapper}>NEXTFLIX</div>
+          </a>
+        </Link>
         <ul className={styles.navItems}>
           <li className={styles.navItem} onClick={handleLinkHome}>
             Home
