@@ -6,7 +6,7 @@ export async function middleware(req, ev) {
   const userId = await verifyToken(token);
   const { pathname } = req.nextUrl;
 
-  if ((token && userId) || pathname.includes('/api/login')) {
+  if (pathname.includes('/api/login') || userId || pathname.includes('/static')) {
     return NextResponse.next();
   }
 
