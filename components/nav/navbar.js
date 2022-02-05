@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import Link from 'next/link';
 import Image from 'next/image';
 
 import styles from './navbar.module.css';
@@ -20,7 +19,7 @@ const NavBar = () => {
 
       if (email) {
         setUsername(email);
-        setDidToken(didToken)
+        setDidToken(didToken);
       }
     } catch (err) {
       console.error('Something retrieving email', err);
@@ -42,14 +41,21 @@ const NavBar = () => {
     setShowDropdown(!showDropdown);
   };
 
-  const handleLogout = async e => {
+  const handleSignout = async e => {
     e.preventDefault();
-    
+
     try {
-      await magic.user.logout();
-      router.push('/login');
-    } catch (err) {
-      console.error('Error logging out', err);
+      const response = await fetch('/api/logout', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${didToken}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      const res = await response.json();
+    } catch (error) {
+      console.error('Error logging out', error);
       router.push('/login');
     }
   };
@@ -88,7 +94,7 @@ const NavBar = () => {
             <div>
               {showDropdown && (
                 <div className={styles.navDropdown}>
-                  <a className={styles.linkName} onClick={handleLogout}>
+                  <a className={styles.linkName} onClick={handleSignout}>
                     Sign out
                   </a>
                   <div className={styles.lineWrapper}></div>
