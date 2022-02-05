@@ -166,7 +166,6 @@ export async function getWatchedVideos(userId, token) {
       userId: {_eq: $userId},
     }) {
       videoId
-      userId
     }
   }
   `;
@@ -178,6 +177,6 @@ export async function getWatchedVideos(userId, token) {
     },
     token
   );
-  console.log({ response })
-  return response;
+
+  return response?.data?.stats;
 }

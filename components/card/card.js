@@ -17,7 +17,7 @@ const Card = ({ imgUrl = '/static/movie-clip.jpeg', size = 'medium', id }) => {
 
   const handleError = () => {
     console.log('error');
-    setImgSrc('/static/Lordoftherings.jpeg');
+    setImgSrc('/static/movie-clip.jpeg');
   };
 
   const scale = id === 0 ? {scaleY: 1.1} : {scale: 1.1}

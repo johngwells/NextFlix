@@ -20,6 +20,7 @@ export async function getServerSideProps() {
 
 export default function Home({ disneyVideos, animeVideos, popularVideos, watchItAgainVideos }) {
   console.log(watchItAgainVideos)
+
   return (
     <div className={styles.container}>
       <Head>
@@ -39,6 +40,10 @@ export default function Home({ disneyVideos, animeVideos, popularVideos, watchIt
 
         <div className={styles.sectionWrapper}>
           <SectionCards title='Disney' videos={disneyVideos} size='large' />
+        </div>
+
+        <div className={styles.sectionWrapper}>
+          <SectionCards title='Watch it again' videos={watchItAgainVideos} size='small' />
         </div>
 
         <div className={styles.sectionWrapper}>
