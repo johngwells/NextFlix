@@ -21,7 +21,7 @@ const Card = ({
   };
 
   const handleError = () => {
-    console.log('Error, Image not found. Using default image');
+    // console.log('Error, Image not found. Using default image');
     setImgSrc('/static/movie-clip.jpeg');
   };
 
