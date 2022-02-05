@@ -180,3 +180,27 @@ export async function getWatchedVideos(userId, token) {
 
   return response?.data?.stats;
 }
+
+export async function getMyListVideos(userId, token) {
+  const operationsDoc = `
+  query favoritedVideos($userId: String!) {
+    stats(where: {
+      favorited: {_eq: 1}, 
+      userId: {_eq: $userId }
+    }) {
+      videoId
+    }
+  }
+`;
+
+  const response = await fetchGraphQL(
+    operationsDoc,
+    'favoritedVideos',
+    {
+      userId
+    },
+    token
+  );
+
+  return response?.data?.stats;
+}

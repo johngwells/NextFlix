@@ -42,6 +42,7 @@ const Video = ({ video }) => {
   const [dislike, setDislike] = useState(false);
   const router = useRouter();
   const videoId = router.query.videoId;
+  console.log({ videoId })
 
   const {
     title,
@@ -57,6 +58,7 @@ const Video = ({ video }) => {
       method: 'GET'
     });
     const data = await response.json();
+    console.log({data})
 
     if (data.length > 0) {
       const favorited = data[0].favorited;

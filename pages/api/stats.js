@@ -12,7 +12,7 @@ export default async function stats(req, res) {
       const inputParams = req.method === 'POST' ? req.body : req.query
       const { videoId } = inputParams;
       if (videoId) {
-        const userId = verifyToken(token);
+        const userId = await verifyToken(token);
 
         const findVideo = await findVideoIdByUser(userId, videoId, token);
         const statsExist = findVideo?.length > 0;
@@ -27,7 +27,7 @@ export default async function stats(req, res) {
               videoId,
               favorited
             });
-            res.send({ data: response });
+            res.send(response);
           } else {
             // add it
             const response = await insertStats(token, {
@@ -36,7 +36,7 @@ export default async function stats(req, res) {
               videoId,
               favorited
             });
-            res.send({ data: response });
+            res.send(response);
           }
         // Get Request - find video if exist
         } else {
