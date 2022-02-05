@@ -4,10 +4,15 @@ import SectionCards from '../../components/card/section-cards';
 
 import styles from '../../styles/MyList.module.css';
 import { getMyList } from '../../lib/videos';
+import { verifyToken } from '../../lib/utils';
 import useRedirectUser from '../../utils/use-redirect-user';
 
 export async function getServerSideProps(context) {
-  const { userId, token } = await useRedirectUser(context);
+  // just left uncommented. Custom hook not allowed here.
+  // const { userId, token } = await useRedirectUser(context);
+  const token = context.req ? context.req.cookies?.token : null;
+  const userId = await verifyToken(token);
+
   const videos = await getMyList(userId, token);
 
   return {

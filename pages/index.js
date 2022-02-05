@@ -11,9 +11,11 @@ import {
   getWatchItAgainVideos
 } from '../lib/videos';
 import useRedirectUser from '../utils/use-redirect-user';
+import { verifyToken } from '../lib/utils';
 
 export async function getServerSideProps(context) {
-  const { userId, token } = await useRedirectUser(context);
+  const token = context.req ? context.req.cookies?.token : null;
+  const userId = await verifyToken(token);
 
   const disneyVideos = await getVideos('disney trailer');
   const animeVideos = await getVideos('anime trailer');
