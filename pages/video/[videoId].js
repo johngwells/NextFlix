@@ -119,7 +119,7 @@ const Video = ({ video }) => {
           type='text/html'
           width='100%'
           height='390'
-          src={`http://www.youtube.com/embed/${videoId}?autoplay=1&enablejsapi=1&origin=http://example.com&controls=0&rel=0`}
+          src={`https://www.youtube.com/embed/${videoId}?autoplay=1&enablejsapi=1&origin=http://example.com&controls=0&rel=0`}
           frameBorder='0'
         ></iframe>
 
